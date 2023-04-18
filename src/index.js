@@ -15,7 +15,6 @@ let used = {};
 
 // BUILT-IN STYLE FOR EACH CHARACTER
 const Character = styled.div`
-  width: 12px;
   display: flex;
   justify-content: center;
 `;
@@ -41,10 +40,14 @@ const TextScan = ({
   inText,
   scanStyle,
   fontSize,
-  style,
   animationSpeed,
   placeholderOpacity,
+  style,
 }) => {
+  let charSize = !fontSize
+    ? "16px"
+    : fontSize;
+
   let charOpacity = !placeholderOpacity
     ? "36%"
     : placeholderOpacity === 10
@@ -198,7 +201,18 @@ const TextScan = ({
         // if we havent stored the current char in the object, push a random character in its place
         if (scanStyle === "digit") {
           if (char === " " || i === letters.length) {
-            currWordArr.push(<Character key={i}>{capChar}</Character>);
+            currWordArr.push(
+              <Character
+                key={i}
+                style={{
+                  opacity: charOpacity,
+                  minWidth: "fit-content",
+                  width: `calc(${charSize} * 0.75)`,
+                }}
+              >
+                {capChar}
+              </Character>
+            );
             newP.push(
               <div style={{ display: "flex" }} key={`${i}-div`}>
                 {currWordArr}
@@ -206,18 +220,46 @@ const TextScan = ({
             );
             currWordArr = [];
           } else if (used[char] === 1) {
-            currWordArr.push(<Character key={i}>{capChar}</Character>);
+            currWordArr.push(
+              <Character
+                key={i}
+                style={{
+                  opacity: charOpacity,
+                  minWidth: "fit-content",
+                  width: `calc(${charSize} * 0.75)`,
+                }}
+              >
+                {capChar}
+              </Character>
+            );
           } else {
             // USING AN ACTUAL RANDOM CHAR FROM THE TEXT AS THE RANDOM CHARS FOR THE SCAN
             currWordArr.push(
-              <Character style={{ opacity: charOpacity }} key={i}>
+              <Character
+                style={{
+                  opacity: charOpacity,
+                  minWidth: "fit-content",
+                  width: `calc(${charSize} * 0.75)`,
+                }}
+                key={i}
+              >
                 {placeholder}
               </Character>
             );
           }
         } else {
           if (char === " " || i === letters.length) {
-            currWordArr.push(<Character key={i}>{capChar}</Character>);
+            currWordArr.push(
+              <Character
+                key={i}
+                style={{
+                  width: `calc(${charSize} * 0.75)`,
+                  minWidth: "fit-content",
+                }}
+              >
+                {capChar}
+              </Character>
+            );
             newP.push(
               <div style={{ display: "flex" }} key={`${i}-div`}>
                 {currWordArr}
@@ -225,11 +267,28 @@ const TextScan = ({
             );
             currWordArr = [];
           } else if (used[char] === 1) {
-            currWordArr.push(<Character key={i}>{capChar}</Character>);
+            currWordArr.push(
+              <Character
+                key={i}
+                style={{
+                  minWidth: "fit-content",
+                  width: `calc(${charSize} * 0.75)`,
+                }}
+              >
+                {capChar}
+              </Character>
+            );
           } else {
             // USING AN ACTUAL RANDOM CHAR FROM THE TEXT AS THE RANDOM CHARS FOR THE SCAN
             currWordArr.push(
-              <Character style={{ opacity: charOpacity }} key={i}>
+              <Character
+                style={{
+                  opacity: charOpacity,
+                  minWidth: "fit-content",
+                  width: `calc(${charSize} * 0.75)`,
+                }}
+                key={i}
+              >
                 {inText[randomCharIndex()]}
               </Character>
             );
@@ -265,9 +324,7 @@ const TextScan = ({
   });
 
   return !style || style === "default" ? (
-    <TextContainer style={{ fontSize: `calc(${fontSize} + 0.2vw)` }}>
-      {text}
-    </TextContainer>
+    <TextContainer style={{ fontSize: charSize }}>{text}</TextContainer>
   ) : (
     <div style={style}>{text}</div>
   );
