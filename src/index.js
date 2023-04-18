@@ -21,9 +21,9 @@ const Character = styled.div`
 `;
 
 // BUILT-IN STYLE FOR FADED CHARACTER
-// const FadedCharacter = styled(Character)`
-//   opacity: 36%;
-// `;
+const FadedCharacter = styled(Character)`
+  opacity: 36%;
+`;
 
 const TextContainer = styled.div`
   display: flex;
@@ -45,7 +45,6 @@ const TextScan = ({
   animationSpeed,
   placeholderOpacity,
 }) => {
-  
   let charOpacity = !placeholderOpacity
     ? "36%"
     : placeholderOpacity === 10
