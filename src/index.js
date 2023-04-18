@@ -9,7 +9,6 @@ import styled from "styled-components";
   OTHERWISE, SHOW A RANDOM CHARACTER FROM OUR BODY OF TEXT AT 36% OPACITY
 */
 
-
 // THIS OBJ KEEPS TRACK OF LETTERS WE ARE SHOWING
 // WE ADD LETTERS FROM OUR TEXT BODY TO IT
 let used = {};
@@ -22,9 +21,9 @@ const Character = styled.div`
 `;
 
 // BUILT-IN STYLE FOR FADED CHARACTER
-const FadedCharacter = styled(Character)`
-  opacity: 36%;
-`;
+// const FadedCharacter = styled(Character)`
+//   opacity: 36%;
+// `;
 
 const TextContainer = styled.div`
   display: flex;
@@ -38,35 +37,86 @@ const TextContainer = styled.div`
   color: #8e8e8e;
 `;
 
-const TextScan = ({ inText, scanStyle, fontSize, style, animationSpeed }) => {
+const TextScan = ({
+  inText,
+  scanStyle,
+  fontSize,
+  style,
+  animationSpeed,
+  placeholderOpacity,
+}) => {
+  
+  let charOpacity = !placeholderOpacity
+    ? "36%"
+    : placeholderOpacity === 10
+    ? "100%"
+    : placeholderOpacity === 9
+    ? "90%"
+    : placeholderOpacity === 8
+    ? "80%"
+    : placeholderOpacity === 7
+    ? "70%"
+    : placeholderOpacity === 6
+    ? "60%"
+    : placeholderOpacity === 5
+    ? "50%"
+    : placeholderOpacity === 4
+    ? "40%"
+    : placeholderOpacity === 3
+    ? "30%"
+    : placeholderOpacity === 2
+    ? "20%"
+    : placeholderOpacity === 1
+    ? "10%"
+    : "10%";
 
   let intervals = !animationSpeed
-  ? 6
-  : animationSpeed === 5
-  ? 2
-  : animationSpeed === 4
-  ? 4
-  : animationSpeed === 3
-  ? 6
-  : animationSpeed === 2
-  ? 8
-  : animationSpeed === 1
-  ? 10 : 10
+    ? 6
+    : animationSpeed === 10
+    ? 1
+    : animationSpeed === 9
+    ? 1
+    : animationSpeed === 8
+    ? 1
+    : animationSpeed === 7
+    ? 1
+    : animationSpeed === 6
+    ? 1
+    : animationSpeed === 5
+    ? 2
+    : animationSpeed === 4
+    ? 4
+    : animationSpeed === 3
+    ? 6
+    : animationSpeed === 2
+    ? 8
+    : animationSpeed === 1
+    ? 10
+    : 10;
 
   let intervalSpeed = !animationSpeed
-  ? 3
-  : animationSpeed === 5
-  ? .5
-  : animationSpeed === 4
-  ? 1
-  : animationSpeed === 3
-  ? 2
-  : animationSpeed === 2
-  ? 3
-  : animationSpeed === 1
-  ? 4 : 4
-
-
+    ? 3
+    : animationSpeed === 10
+    ? 0.00195312
+    : animationSpeed === 9
+    ? 0.0078125
+    : animationSpeed === 8
+    ? 0.03125
+    : animationSpeed === 7
+    ? 0.125
+    : animationSpeed === 6
+    ? 0.25
+    : animationSpeed === 5
+    ? 0.5
+    : animationSpeed === 4
+    ? 1
+    : animationSpeed === 3
+    ? 2
+    : animationSpeed === 2
+    ? 3
+    : animationSpeed === 1
+    ? 4
+    : 4;
 
   // in-order text split into indiv characters
   let letters = inText.split("");
@@ -78,19 +128,19 @@ const TextScan = ({ inText, scanStyle, fontSize, style, animationSpeed }) => {
   };
 
   // returns paragraph with same amount of characters as the text we are going to display, but characters are random
-  let randomizedAlph = (letters) => {
-    const randomizedP = [];
-    let i = 0;
-    while (i < letters.length) {
-      randomizedP.push(letters[randomCharIndex()]);
-      i++;
-    }
-    return randomizedP.join("");
-  };
+  // let randomizedAlph = (letters) => {
+  //   const randomizedP = [];
+  //   let i = 0;
+  //   while (i < letters.length) {
+  //     randomizedP.push(letters[randomCharIndex()]);
+  //     i++;
+  //   }
+  //   return randomizedP.join("");
+  // };
   //  ------------------- SOLELY USED TO CREATE A RANDOMIZED PARAGRAPH OF LETTERS, THE SAME LENGTH AS OUR INTAKEN TEXT BODY ------------------- ^^
 
   // this will hold the text we will be displaying in the about-desc
-  const [text, setText] = useState(randomizedAlph(letters));
+  const [text, setText] = useState("");
   // this will keep track of how many letters of the uniqueChars we have gone through
   const [hitUniqueChars, setHitUniqueChars] = useState(0);
   // this will keep track of how many letter switches we have/the scan effect
@@ -124,48 +174,73 @@ const TextScan = ({ inText, scanStyle, fontSize, style, animationSpeed }) => {
         used[correctLetterToSet] = 1;
       }
 
+      //  function below will:
+      //  - for each letter/char:
+      //      - if the char is in the used obj, then push the char as a Character component into an arr, else, push a random letter into an arr.
+      //      - if the char is a space, push the space as it is
+      //      - join all chars
+      //      - split the new randomized chars at the spaces
+
+      // outcome of this should be [[w,o,r,d],[w,o,r,d],[w,o,r,d]]
       const newP = [];
-      // let wordArr = [];
       let currWordArr = [];
-      // for each character of the paragraph, if the character is in the object, don't touch it and just push it, otherwise, push a random character in its place
-      for (let i = 0; i < letters.length; i++) {
-        let capChar = letters[i];
-        let char = capChar.toLowerCase();
-        // if we havent stored the current char in the object, push a random character in its place
-        if (used[char] !== 1) {
-          if (scanStyle === "digit") {
-            // USING 0 AND 8 AS THE RANDOM CHARS FOR THE SCAN
-            if (i % 2 === 0) {
-              newP.push("0");
-            } else {
-              newP.push("8");
-            }
-          }
+      for (let i = 0; i <= letters.length; i++) {
+        let placeholder;
+        if (hit8 % 2 === 0) {
+          placeholder = "0";
+        } else {
+          placeholder = "8";
         }
-        if (scanStyle === "alph") {
-          if (char === " " || i === letters.length - 1) {
+        let capChar = letters[i];
+        let char;
+        if (capChar) {
+          char = capChar.toLowerCase();
+        }
+        // if we havent stored the current char in the object, push a random character in its place
+        if (scanStyle === "digit") {
+          if (char === " " || i === letters.length) {
             currWordArr.push(<Character key={i}>{capChar}</Character>);
-            newP.push(<div style={{display: 'flex'}} key={`${i}-div`}>{currWordArr}</div>);
+            newP.push(
+              <div style={{ display: "flex" }} key={`${i}-div`}>
+                {currWordArr}
+              </div>
+            );
             currWordArr = [];
-          }
-          else if(used[char] === 1) {
+          } else if (used[char] === 1) {
             currWordArr.push(<Character key={i}>{capChar}</Character>);
-          }
-          else {
+          } else {
             // USING AN ACTUAL RANDOM CHAR FROM THE TEXT AS THE RANDOM CHARS FOR THE SCAN
             currWordArr.push(
-              <FadedCharacter key={i}>{inText[randomCharIndex()]}</FadedCharacter>
+              <Character style={{ opacity: charOpacity }} key={i}>
+                {placeholder}
+              </Character>
             );
           }
-
-          // if this character is in our object, we just push the character as it is in full opacity/render it
         } else {
-          currWordArr.push(<Character key={i}>{capChar}</Character>);
+          if (char === " " || i === letters.length) {
+            currWordArr.push(<Character key={i}>{capChar}</Character>);
+            newP.push(
+              <div style={{ display: "flex" }} key={`${i}-div`}>
+                {currWordArr}
+              </div>
+            );
+            currWordArr = [];
+          } else if (used[char] === 1) {
+            currWordArr.push(<Character key={i}>{capChar}</Character>);
+          } else {
+            // USING AN ACTUAL RANDOM CHAR FROM THE TEXT AS THE RANDOM CHARS FOR THE SCAN
+            currWordArr.push(
+              <Character style={{ opacity: charOpacity }} key={i}>
+                {inText[randomCharIndex()]}
+              </Character>
+            );
+          }
         }
       }
 
       setText(newP);
     };
+
     // CREATE INTERVAL
     let animationInterval;
     // If we haven't yet hit all of our uniqueChars, set the interval;
@@ -189,17 +264,6 @@ const TextScan = ({ inText, scanStyle, fontSize, style, animationSpeed }) => {
     }
     return () => (used = {});
   });
-
-  //  function will:
-  //  - take letters.split() which is all letters in the input text
-  //  - for each letter/char:
-  //      - if the char is in the used obj, then push the char as a Character component into an arr, else, push a random letter into an arr.
-  //      - if the char is a space, push the space as it is
-  //      - join all chars
-  //      - split the new randomized chars at the spaces
-
-  // outcome of this should be [[w,o,r,d],[w,o,r,d],[w,o,r,d]]
-
 
   return !style || style === "default" ? (
     <TextContainer style={{ fontSize: `calc(${fontSize} + 0.2vw)` }}>
