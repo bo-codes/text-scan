@@ -23,7 +23,7 @@ ex: <**TextScan** inText={"When you're feeling bobo,  take some time and watch a
 
 Giving the scanStyle a vallue of "alph" will show letters when scanning through the text.
 <br/><br/>
-### **"digit"** (default)
+### **"digit"** 
 ex: <**TextScan** inText={"When you're feeling bobo,  take some time and watch a movie"} scanStyle={"digit"} />
 
 Giving the scanStyle a vallue of "digit" will show numbers("0"s and "8"s) when scanning through the text.
@@ -75,4 +75,3 @@ By default, the styling is set to:
 }`
 
 ### CHANGING ANY OF THE DEFAULT STYLING MIGHT BREAK THE FORMAT OF THE COMPONENT. IF COMPONENT FORMAT BREAKS, REMOVE STYLE ALTOGETHER.
-

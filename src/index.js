@@ -44,9 +44,7 @@ const TextScan = ({
   placeholderOpacity,
   style,
 }) => {
-  let charSize = !fontSize
-    ? "16px"
-    : fontSize;
+  let charSize = !fontSize ? "16px" : fontSize;
 
   let charOpacity = !placeholderOpacity
     ? "36%"
@@ -162,6 +160,7 @@ const TextScan = ({
   useEffect(() => {
     // set uniqueChars to equal the arr of all unique chars in our body of text
     let uniqueChars = getUniqueChars(inText);
+    // console.log(uniqueChars, 'uniqueChars')
     // FUNCTION THAT BASICALLY CAUSES THE ANIMATION BY UPDATING THE 'text' STATE OVER AND OVER
     const randomFunc = () => {
       // THIS IS A SORT OF BASE CASE; WHEN WE HIT THIS CASE, WE ADD A NEW CHAR TO THE 'used' OBJ HENCE RENDERING A NEW CHARACTER IN ITS CORRECT PLACE
@@ -188,9 +187,13 @@ const TextScan = ({
       let currWordArr = [];
       for (let i = 0; i <= letters.length; i++) {
         let placeholder;
-        if (hit8 % 2 === 0) {
+        if (hit8 % 2 === 0 && i % 2 === 0) {
           placeholder = "0";
-        } else {
+        } else if (hit8 % 2 === 0 && i % 2 !== 0) {
+          placeholder = "8";
+        } else if (hit8 % 2 !== 0 && i % 2 !== 0) {
+          placeholder = "0";
+        } else if (hit8 % 2 !== 0 && i % 2 === 0) {
           placeholder = "8";
         }
         let capChar = letters[i];
@@ -205,7 +208,6 @@ const TextScan = ({
               <Character
                 key={i}
                 style={{
-                  opacity: charOpacity,
                   minWidth: "fit-content",
                   width: `calc(${charSize} * 0.75)`,
                 }}
@@ -219,12 +221,11 @@ const TextScan = ({
               </div>
             );
             currWordArr = [];
-          } else if (used[char] === 1) {
+          } else if (used[capChar] === 1) {
             currWordArr.push(
               <Character
                 key={i}
                 style={{
-                  opacity: charOpacity,
                   minWidth: "fit-content",
                   width: `calc(${charSize} * 0.75)`,
                 }}
@@ -253,8 +254,8 @@ const TextScan = ({
               <Character
                 key={i}
                 style={{
-                  width: `calc(${charSize} * 0.75)`,
                   minWidth: "fit-content",
+                  width: `calc(${charSize} * 0.75)`,
                 }}
               >
                 {capChar}
@@ -266,7 +267,7 @@ const TextScan = ({
               </div>
             );
             currWordArr = [];
-          } else if (used[char] === 1) {
+          } else if (used[capChar] === 1) {
             currWordArr.push(
               <Character
                 key={i}
