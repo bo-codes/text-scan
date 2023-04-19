@@ -2,7 +2,7 @@
 
 **text-scan** is a react component which takes a text input, and displays the text with a digital text-scan animation, similar to subway split-flap.
 
-The component needs a "inText" prop value as listed in the parameters below. The rest of the parameters listed have default values.
+The component needs an "inText" prop value as listed in the parameters below. The rest of the parameters listed have default values.
 
 # Installation
 `npm i text-scan`
@@ -18,17 +18,18 @@ This prop takes the text/string that you want to display.
 
 ## **scanStyle**:
 
+It is set to "alph" by default if no value is provided.
 ### **"alph"** (default)
+
 ex: <**TextScan** inText={"When you're feeling bobo,  take some time and watch a movie"} scanStyle={"alph"} />
 
-Giving the scanStyle a vallue of "alph" will show letters when scanning through the text.
+Giving the scanStyle a value of "alph" will show letters when scanning through the text.
 <br/><br/>
-### **"digit"** 
+### **"digit"**
 ex: <**TextScan** inText={"When you're feeling bobo,  take some time and watch a movie"} scanStyle={"digit"} />
 
 Giving the scanStyle a vallue of "digit" will show numbers("0"s and "8"s) when scanning through the text.
 
-It is set to "alph" by default if no value is value provided
 
 ## **fontSize**:
 
@@ -44,7 +45,7 @@ ex: <**TextScan** inText={"When you're feeling bobo,  take some time and watch a
 
 This prop takes an integer(1-10) to set the speed of the text-scan animation.
 
-It is set to around 3 by default if no value is provided
+It is set to around 3 by default if no value is provided.
 
 
 ## **placeholderOpacity**:
@@ -53,7 +54,7 @@ ex: <**TextScan** inText={"When you're feeling bobo,  take some time and watch a
 
 This prop takes an integer(1-10) to set the opacity of the placeholder text(random letters or '0's and '8's) in the text-scan animation.
 
-It is set to around 4 by default if no value is provided
+It is set to around 4 by default if no value is provided.
 
 
 ## **style**:
@@ -74,4 +75,4 @@ By default, the styling is set to:
   color: "#8e8e8e",
 }`
 
-### CHANGING ANY OF THE DEFAULT STYLING MIGHT BREAK THE FORMAT OF THE COMPONENT. IF COMPONENT FORMAT BREAKS, REMOVE STYLE ALTOGETHER.
+### CHANGING ANY OF THE DEFAULT STYLING MAY BREAK THE FORMAT OF THE COMPONENT. IF COMPONENT FORMAT BREAKS, REMOVE STYLE ALTOGETHER.
